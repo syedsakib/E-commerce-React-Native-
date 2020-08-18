@@ -1,24 +1,27 @@
-import React from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import React from 'react';
+import { StyleSheet, View, FlatList } from 'react-native';
 
-import { ListItem, ListItemSeparator } from "../components/lists";
-import colors from "../config/colors";
-import Icon from "../components/Icon";
-import routes from "../navigation/routes";
-import Screen from "../components/Screen";
+import { ListItem, ListItemSeparator } from '../components/lists';
+import colors from '../config/colors';
+import Icon from '../components/Icon';
+import routes from '../navigation/routes';
+import Screen from '../components/Screen';
+// import AuthContext from '../auth/context';
+//import authStorage from '../auth/storage';
+import useAuth from '../auth/useAuth';
 
 const menuItems = [
   {
-    title: "My Listings",
+    title: 'My Listings',
     icon: {
-      name: "format-list-bulleted",
+      name: 'format-list-bulleted',
       backgroundColor: colors.primary,
     },
   },
   {
-    title: "My Messages",
+    title: 'My Messages',
     icon: {
-      name: "email",
+      name: 'email',
       backgroundColor: colors.secondary,
     },
     targetScreen: routes.MESSAGES,
@@ -26,13 +29,20 @@ const menuItems = [
 ];
 
 function AccountScreen({ navigation }) {
+  const { user, logOut } = useAuth();
+
+  // handleLogout = () => {
+  //   setUser(null);
+  //   authStorage.removeToken();
+  // };
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title="Mosh Hamedani"
-          subTitle="programmingwithmosh@gmail.com"
-          image={require("../assets/mosh.jpg")}
+          title={user.name}
+          subTitle={user.email}
+          image={require('../assets/mosh.jpg')}
         />
       </View>
       <View style={styles.container}>
@@ -55,8 +65,9 @@ function AccountScreen({ navigation }) {
         />
       </View>
       <ListItem
-        title="Log Out"
-        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        title='Log Out'
+        IconComponent={<Icon name='logout' backgroundColor='#ffe66d' />}
+        onPress={() => logOut()}
       />
     </Screen>
   );
